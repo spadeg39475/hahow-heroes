@@ -1,12 +1,14 @@
 import React from 'react';
+import { HashRouter as Router } from 'react-router-dom';
 
 import HeroList from 'Components/HeroList';
 
 function App() {
   return (
     <div className="App">
-      <h1> Hello, World!</h1>
-      <HeroList />
+      <Router>
+        <HeroList />
+      </Router>
     </div>
   );
 }
