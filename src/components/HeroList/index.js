@@ -21,8 +21,6 @@ export default function HeroList() {
     dispatch(fetchHeroes());
   }, []);
 
-  console.log('heroList', heroList);
-
   return (
     <>
       <ListContainer>

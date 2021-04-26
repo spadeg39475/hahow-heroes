@@ -1,16 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 
-export default function HeroCard({ id, name, imageUrl }) {
+import { selectHero } from 'Reducers/heroReducer';
+export default function HeroCard({ id: heroId, name, imageUrl }) {
+  const dispatch = useDispatch();
+
+  const handleClickCard = () => {
+    dispatch(selectHero(heroId));
+  };
+
   return (
     <>
-      <Card>
-        <Card.Img variant="top" src={imageUrl} />
-        <Card.Body>
-          <Card.Title>{name}</Card.Title>
-        </Card.Body>
-      </Card>
+      <Link to={`/heroes/${heroId}`} onClick={handleClickCard}>
+        <Card>
+          <Card.Img variant="top" src={imageUrl} />
+          <Card.Body>
+            <Card.Title>{name}</Card.Title>
+          </Card.Body>
+        </Card>
+      </Link>
     </>
   );
 }
