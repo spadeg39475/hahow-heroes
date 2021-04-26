@@ -22,6 +22,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx'],
     alias: {
       Components: path.resolve(__dirname, 'src/components'),
+      Reducers: path.resolve(__dirname, 'src/reducers'),
     },
   },
   output: {
