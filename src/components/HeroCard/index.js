@@ -5,7 +5,14 @@ import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 
 import { selectHero } from 'Reducers/heroReducer';
-export default function HeroCard({ id: heroId, name, imageUrl }) {
+
+import { StyledLink, StyledCard } from './style';
+export default function HeroCard({
+  id: heroId,
+  name,
+  imageUrl,
+  selectedHeroId,
+}) {
   const dispatch = useDispatch();
 
   const handleClickCard = () => {
@@ -14,14 +21,14 @@ export default function HeroCard({ id: heroId, name, imageUrl }) {
 
   return (
     <>
-      <Link to={`/heroes/${heroId}`} onClick={handleClickCard}>
-        <Card>
+      <StyledLink to={`/heroes/${heroId}`} onClick={handleClickCard}>
+        <StyledCard selected={heroId === selectedHeroId}>
           <Card.Img variant="top" src={imageUrl} />
           <Card.Body>
             <Card.Title>{name}</Card.Title>
           </Card.Body>
-        </Card>
-      </Link>
+        </StyledCard>
+      </StyledLink>
     </>
   );
 }

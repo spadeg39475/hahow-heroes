@@ -1,6 +1,6 @@
 const initState = {
   list: [],
-  selectedHero: '0',
+  selectedHeroId: '0',
   profiles: {},
 };
 
@@ -68,7 +68,7 @@ export default function heroReducer(state = initState, action) {
     case SELECT_HERO:
       return {
         ...state,
-        selectedHero: action.payload,
+        selectedHeroId: action.payload,
       };
 
     case SET_PROFILE:

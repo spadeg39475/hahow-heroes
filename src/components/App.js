@@ -4,17 +4,17 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import HeroList from 'Components/HeroList';
 import HeroProfile from 'Components/HeroProfile';
 
-import { GlobalStyle } from './style';
+import { GlobalStyle, HeroApp } from './style';
 
 function App() {
   return (
-    <div className="App">
+    <HeroApp>
       <GlobalStyle />
       <Router>
         <HeroList />
         <Route path="/heroes/:heroId" component={HeroProfile} />
       </Router>
-    </div>
+    </HeroApp>
   );
 }
 
