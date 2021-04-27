@@ -59,4 +59,8 @@ export const ButtonSave = styled(Button)`
   color: white;
   padding: 8px 4px;
   border-radius: 4px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;

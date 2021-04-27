@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import { fetchHeroProfile, patchHeroProfile } from 'Reducers/heroReducer';
-import Spinner from 'Components/Spinner';
 
 import {
   Container,
@@ -22,10 +22,12 @@ export default function HeroProfile() {
   const { heroId } = useParams();
   const dispatch = useDispatch();
   const heroProfile = useSelector((state) => state.hero.profiles[heroId]);
+
   const [restPoints, setRestPoints] = useState(0);
   const [currentProfile, setCurrentProfile] = useState(
     heroProfile || { str: 0, int: 0, agi: 0, luk: 0 }
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!heroProfile) {
@@ -58,35 +60,55 @@ export default function HeroProfile() {
   const handleClickSaveProfile = async () => {
     if (restPoints !== 0) return;
 
+    setIsLoading(true);
     const res = await dispatch(patchHeroProfile(heroId, currentProfile));
+    setIsLoading(false);
 
     // update heroProfile after patch
     if (res.status === 200) {
       dispatch(fetchHeroProfile(heroId));
+
+      Swal.fire({
+        title: '儲存成功',
+        icon: 'success',
+        confirmButtonText: 'ok',
+      });
+    } else {
+      Swal.fire({
+        title: '儲存失敗',
+        icon: 'error',
+        confirmButtonText: 'ok',
+      });
     }
   };
 
   return (
-    <Container>
-      <ContainerLeft>
-        {abilities.map((abi) => (
-          <AbilityRow
-            key={abi}
-            ability={abi}
-            restPoints={restPoints}
-            currentProfile={currentProfile}
-            addAbility={addAbility(abi)}
-            reduceAbility={reduceAbility(abi)}
-          />
-        ))}
-      </ContainerLeft>
-      <ContainerRight>
-        <div className="rest-points">剩餘點數：{restPoints}</div>
-        <ButtonSave variant="primary" onClick={handleClickSaveProfile}>
-          儲存
-        </ButtonSave>
-      </ContainerRight>
-    </Container>
+    <>
+      <Container>
+        <ContainerLeft>
+          {abilities.map((abi) => (
+            <AbilityRow
+              key={abi}
+              ability={abi}
+              restPoints={restPoints}
+              currentProfile={currentProfile}
+              addAbility={addAbility(abi)}
+              reduceAbility={reduceAbility(abi)}
+            />
+          ))}
+        </ContainerLeft>
+        <ContainerRight>
+          <div className="rest-points">剩餘點數：{restPoints}</div>
+          <ButtonSave
+            variant="primary"
+            onClick={handleClickSaveProfile}
+            disabled={restPoints > 0 || isLoading}
+          >
+            {isLoading ? 'Loading' : '儲存'}
+          </ButtonSave>
+        </ContainerRight>
+      </Container>
+    </>
   );
 }
 
