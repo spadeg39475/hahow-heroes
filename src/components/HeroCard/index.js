@@ -36,4 +36,5 @@ HeroCard.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,
   imageUrl: PropTypes.string,
+  selectedHeroId: PropTypes.string,
 };

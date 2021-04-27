@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -70,19 +71,14 @@ export default function HeroProfile() {
     <Container>
       <ContainerLeft>
         {abilities.map((abi) => (
-          <Row key={abi}>
-            <div className="ability-title">{abi.toUpperCase()}</div>
-            <ButtonPlus onClick={addAbility(abi)} disabled={restPoints === 0}>
-              +
-            </ButtonPlus>
-            <div className="ability-value">{currentProfile[abi]}</div>
-            <ButtonMinus
-              onClick={reduceAbility(abi)}
-              disabled={currentProfile[abi] === 0}
-            >
-              -
-            </ButtonMinus>
-          </Row>
+          <AbilityRow
+            key={abi}
+            ability={abi}
+            restPoints={restPoints}
+            currentProfile={currentProfile}
+            addAbility={addAbility(abi)}
+            reduceAbility={reduceAbility(abi)}
+          />
         ))}
       </ContainerLeft>
       <ContainerRight>
@@ -94,3 +90,35 @@ export default function HeroProfile() {
     </Container>
   );
 }
+
+function AbilityRow({
+  ability,
+  restPoints,
+  currentProfile,
+  addAbility,
+  reduceAbility,
+}) {
+  return (
+    <Row key={ability}>
+      <div className="ability-title">{ability.toUpperCase()}</div>
+      <ButtonPlus onClick={addAbility} disabled={restPoints === 0}>
+        +
+      </ButtonPlus>
+      <div className="ability-value">{currentProfile[ability]}</div>
+      <ButtonMinus
+        onClick={reduceAbility}
+        disabled={currentProfile[ability] === 0}
+      >
+        -
+      </ButtonMinus>
+    </Row>
+  );
+}
+
+AbilityRow.propTypes = {
+  ability: PropTypes.string,
+  restPoints: PropTypes.number,
+  currentProfile: PropTypes.object,
+  addAbility: PropTypes.func,
+  reduceAbility: PropTypes.func,
+};
