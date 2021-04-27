@@ -7,21 +7,29 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 30px 10px;
   border-radius: 4px;
+  flex-wrap: wrap;
 `;
 
 export const ContainerLeft = styled.div`
-  flex: 1;
+  flex-grow: 1;
   max-width: 50%;
+
+  @media screen and (max-width: 576px) {
+    max-width: 100%;
+  }
 `;
 
 export const ContainerRight = styled.div`
   min-width: 150px;
-  max-width: 50%;
   padding: 0 15px;
   align-self: flex-end;
 
   .rest-points {
     margin: 15px auto;
+  }
+
+  @media screen and (max-width: 576px) {
+    width: 100%;
   }
 `;
 

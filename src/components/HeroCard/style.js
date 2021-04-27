@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 export const StyledCard = styled(Card)`
+  flex-grow: 1;
   max-width: 180px;
   height: 100%;
   padding: 15px;
@@ -11,6 +12,14 @@ export const StyledCard = styled(Card)`
   border-radius: 8px;
   border: ${(props) =>
     props.selected ? '2px solid #279eff' : '2px solid #d3d3d3'};
+
+  @media screen and (max-width: 768px) {
+    max-width: 300px;
+  }
+
+  @media screen and (max-width: 576px) {
+    max-width: 100%;
+  }
 
   &:hover {
     box-shadow: 0 0 2px 5px rgba(0, 0, 0, 0.1);
