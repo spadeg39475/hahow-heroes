@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { fetchHeroProfile, patchHeroProfile } from 'Reducers/heroReducer';
+import Spinner from 'Components/Spinner';
+
 import {
   Container,
   ContainerLeft,
@@ -31,7 +33,7 @@ export default function HeroProfile() {
     } else {
       setCurrentProfile(heroProfile);
     }
-
+    // reset restPoints
     return () => setRestPoints(0);
   }, [heroId, heroProfile, heroId]);
 
@@ -58,14 +60,11 @@ export default function HeroProfile() {
 
     const res = await dispatch(patchHeroProfile(heroId, currentProfile));
 
+    // update heroProfile after patch
     if (res.status === 200) {
       dispatch(fetchHeroProfile(heroId));
     }
   };
-
-  if (!heroProfile) {
-    return 'loading';
-  }
 
   return (
     <Container>
