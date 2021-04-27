@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 
 export const StyledCard = styled(Card)`
-  max-width: 230px;
+  max-width: 180px;
   height: 100%;
   padding: 15px;
   margin: 10px;
@@ -22,6 +22,9 @@ export const StyledCard = styled(Card)`
     font-size: 18px;
     text-align: center;
     color: #383b3d;
+  }
+  img {
+    max-width: 100%;
   }
 `;
 

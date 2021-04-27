@@ -1,86 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 
+import { fetchHeroProfile, patchHeroProfile } from 'Reducers/heroReducer';
 import {
-  fetchHeroProfile,
-  setProfile,
-  patchHeroProfile,
-} from 'Reducers/heroReducer';
-
-const Container = styled.div`
-  max-width: 1000px;
-  margin: 0 auto;
-`;
-
-const Row = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 300px;
-  height: 40px;
-`;
+  Container,
+  ContainerLeft,
+  ContainerRight,
+  Row,
+  ButtonSave,
+  ButtonPlus,
+  ButtonMinus,
+} from './style';
 
 const abilities = ['str', 'int', 'agi', 'luk'];
 
 export default function HeroProfile() {
   const { heroId } = useParams();
   const dispatch = useDispatch();
-  const hero = useSelector((state) => state.hero);
   const heroProfile = useSelector((state) => state.hero.profiles[heroId]);
   const [restPoints, setRestPoints] = useState(0);
+  const [currentProfile, setCurrentProfile] = useState(
+    heroProfile || { str: 0, int: 0, agi: 0, luk: 0 }
+  );
 
   useEffect(() => {
     if (!heroProfile) {
       dispatch(fetchHeroProfile(heroId));
+    } else {
+      setCurrentProfile(heroProfile);
     }
-  }, [heroId, heroProfile]);
 
-  if (!heroProfile) {
-    return 'loading';
-  }
+    return () => setRestPoints(0);
+  }, [heroId, heroProfile, heroId]);
 
   const addAbility = (ability) => () => {
-    const newProfile = { ...heroProfile, [ability]: heroProfile[ability] + 1 };
-    dispatch(setProfile(heroId, newProfile));
+    const newProfile = {
+      ...currentProfile,
+      [ability]: currentProfile[ability] + 1,
+    };
+    setCurrentProfile(newProfile);
     setRestPoints(restPoints - 1);
   };
 
   const reduceAbility = (ability) => () => {
-    const newProfile = { ...heroProfile, [ability]: heroProfile[ability] - 1 };
-    dispatch(setProfile(heroId, newProfile));
+    const newProfile = {
+      ...currentProfile,
+      [ability]: currentProfile[ability] - 1,
+    };
+    setCurrentProfile(newProfile);
     setRestPoints(restPoints + 1);
   };
 
   const handleClickSaveProfile = async () => {
     if (restPoints !== 0) return;
 
-    const res = await dispatch(patchHeroProfile(heroId, heroProfile));
+    const res = await dispatch(patchHeroProfile(heroId, currentProfile));
+
+    if (res.status === 200) {
+      dispatch(fetchHeroProfile(heroId));
+    }
   };
 
+  if (!heroProfile) {
+    return 'loading';
+  }
+
   return (
-    <>
-      <Container>
+    <Container>
+      <ContainerLeft>
         {abilities.map((abi) => (
           <Row key={abi}>
-            <div>{abi.toUpperCase()}</div>
-            <button onClick={addAbility(abi)} disabled={restPoints === 0}>
+            <div className="ability-title">{abi.toUpperCase()}</div>
+            <ButtonPlus onClick={addAbility(abi)} disabled={restPoints === 0}>
               +
-            </button>
-            <div>{heroProfile[abi]}</div>
-            <button
+            </ButtonPlus>
+            <div className="ability-value">{currentProfile[abi]}</div>
+            <ButtonMinus
               onClick={reduceAbility(abi)}
-              disabled={heroProfile[abi] === 0}
+              disabled={currentProfile[abi] === 0}
             >
               -
-            </button>
+            </ButtonMinus>
           </Row>
         ))}
-
-        <div>剩餘點數：{restPoints}</div>
-        <button onClick={handleClickSaveProfile}>儲存</button>
-      </Container>
-    </>
+      </ContainerLeft>
+      <ContainerRight>
+        <div className="rest-points">剩餘點數：{restPoints}</div>
+        <ButtonSave variant="primary" onClick={handleClickSaveProfile}>
+          儲存
+        </ButtonSave>
+      </ContainerRight>
+    </Container>
   );
 }

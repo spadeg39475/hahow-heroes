@@ -56,7 +56,7 @@ export function patchHeroProfile(heroId, profile) {
           'Content-Type': 'application/json',
         },
       }
-    ).then((res) => res.status);
+    );
   };
 }
 
