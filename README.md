@@ -6,6 +6,8 @@ hahow 前端徵才 assignment
 
 [Heroes Demo](https://spadeg39475.github.io/hahow-heroes/public/#/)
 
+---
+
 ## 2. 安裝與執行
 
 ```
@@ -18,6 +20,8 @@ npm run dev
 # build for production
 npm run build
 ```
+
+---
 
 ## 3. 專案架構
 
@@ -49,6 +53,8 @@ npm run build
 由於在前公司使用到 redux 多只是維護原本的舊專案，因此這個專案決定從頭建置 redux 架構當作一個練習。
 
 共用的 state 和 hero 資料放在 store 裡，運行方式是 dispatch action 到 reducer 來修改 state。非同步邏輯如 fetch data 部分使用 redux-thunk 處理。有些非共用的狀態則在元件內部使用 useState。
+
+---
 
 ## 4. 使用的第三方 Library
 
@@ -82,6 +88,8 @@ react 元件的 CSS Framework
 
 響應式的 js 彈窗 library，簡易使用來增加一點美觀效果
 
+---
+
 ### DevDependencies
 
 ### Babel
@@ -96,9 +104,13 @@ JavaScript 的轉譯器，可將 ES6+ 或是瀏覽器未支援的語法轉為等
 
 JavaScript 模組打包工具，可以把需要的檔案全部打包成一個 js 檔案，並且可以使用各種 loaders 跟 plugins 來整合各個開發工具
 
+---
+
 ## 5. 寫註解的原則
 
 在較複雜的邏輯，或是覺得一段時間之後回頭再來看時，沒辦法短時間很直覺的看懂寫這段 code 的原因時，會加上註解來提示
+
+---
 
 ## 6. 遇到的困難、問題，以及解決的方法
 
